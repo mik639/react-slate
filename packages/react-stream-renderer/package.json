@@ -1,7 +1,7 @@
 {
   "name": "react-stream-renderer",
   "version": "0.2.0",
-  "description": "",
+  "description": "Custom renderer for rendering React apps to Node stream",
   "license": "MIT",
   "repository": "https://github.com/zamotany/react-stream-renderer",
   "private": false,

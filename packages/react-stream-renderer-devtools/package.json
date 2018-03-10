@@ -16,11 +16,26 @@
   "engines": {
     "node": ">=6"
   },
+  "scripts": {
+    "build:transpile": "babel src --out-dir build --ignore **/__tests__/**,src/app/**",
+    "build:clean": "rimraf build",
+    "build:app": "neutrino build",
+    "build": "yarn build:clean && yarn build:transpile && yarn build:app",
+    "prepublish": "yarn build",
+    "start": "concurrently \"yarn build:transpile --watch\" \"neutrino start\""   
+  },
   "peerDependencies": {
     "react-stream-renderer": "*"
   },
   "dependencies": {
-    "react": "^16.2.0"
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "neutrino": "^8.1.2",
+    "@neutrinojs/react": "^8.1.2",
+    "react-stream-renderer": "^0.2.0"
   },
   "eslintConfig": {
     "extends": "callstack-io"
