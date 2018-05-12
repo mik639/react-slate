@@ -1,10 +1,6 @@
 let counter = 0;
 let hook;
 
-export function ioHook() {
-  return hook;
-}
-
 export function startIoCapture() {
   if (counter === 0) {
     // Importing `iohook` starts native module, so the side effects from
@@ -19,5 +15,17 @@ export function stopIoCapture() {
   counter--;
   if (counter === 0 && hook) {
     hook.unload();
+  }
+}
+
+export function addIoEventListener(event, listener) {
+  if (hook) {
+    hook.addListener(event, listener);
+  }
+}
+
+export function removeIoEventListener(event, listener) {
+  if (hook) {
+    hook.removeListener(event, listener);
   }
 }

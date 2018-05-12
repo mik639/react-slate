@@ -2,11 +2,17 @@
 
 import React, { type Element } from 'react';
 import { View } from '@react-slate/core';
-import { startIoCapture, stopIoCapture, ioHook } from '../io';
+import {
+  startIoCapture,
+  stopIoCapture,
+  addIoEventListener,
+  removeIoEventListener,
+} from '../io';
 
 type Props = {
   children: Element<*>,
   height: number,
+  inverted?: boolean,
 };
 
 type State = {
@@ -28,7 +34,7 @@ export default class ScrollableView extends React.Component<Props, State> {
   }) => {
     if (direction === 3) {
       this.setState(state => {
-        let index = state.index + rotation;
+        let index = state.index + (this.props.inverted ? -1 : 1) * rotation;
         index = index < 0 ? 0 : index;
         index =
           index + this.props.height > this.contentHeight
@@ -52,16 +58,12 @@ export default class ScrollableView extends React.Component<Props, State> {
 
   componentDidMount() {
     startIoCapture();
-    if (ioHook()) {
-      ioHook().addListener('mousewheel', this.onScroll);
-    }
+    addIoEventListener('mousewheel', this.onScroll);
   }
 
   componentWillUnmount() {
     stopIoCapture();
-    if (ioHook()) {
-      ioHook().removeListener('mousewheel', this.onScroll);
-    }
+    removeIoEventListener('mousewheel', this.onScroll);
   }
 
   render() {
